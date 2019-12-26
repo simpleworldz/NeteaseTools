@@ -1,0 +1,14 @@
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\ConsoleApp.exe.config
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\ConsoleApp.exe
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\ConsoleApp.pdb
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\NeteaseMusic.dll
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\Newtonsoft.Json.dll
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\NeteaseMusic.pdb
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\NeteaseMusic.dll.config
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\Newtonsoft.Json.xml
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\obj\Debug\ConsoleApp.csprojAssemblyReference.cache
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\obj\Debug\ConsoleApp.csproj.CoreCompileInputs.cache
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\obj\Debug\ConsoleApp.csproj.CopyComplete
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\obj\Debug\ConsoleApp.exe
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\obj\Debug\ConsoleApp.pdb
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\ConsoleApp\bin\Debug\BouncyCastle.Crypto.dll

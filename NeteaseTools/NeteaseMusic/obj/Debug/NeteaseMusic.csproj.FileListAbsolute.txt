@@ -1,0 +1,15 @@
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\obj\Debug\NeteaseMusic.csprojAssemblyReference.cache
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\obj\Debug\NeteaseMusic.csproj.CoreCompileInputs.cache
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\NeteaseMusic.dll
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\NeteaseMusic.pdb
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\Newtonsoft.Json.dll
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\Newtonsoft.Json.xml
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\obj\Debug\NeteaseMusic.csproj.CopyComplete
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\obj\Debug\NeteaseMusic.dll
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\obj\Debug\NeteaseMusic.pdb
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\System.Security.AccessControl.dll
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\System.Security.Principal.Windows.dll
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\System.Security.AccessControl.xml
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\System.Security.Principal.Windows.xml
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\NeteaseMusic.dll.config
+E:\MyCode\NeteaseMusicBackup\NeteaseMusicBackup\NeteaseMusic\bin\Debug\BouncyCastle.Crypto.dll
