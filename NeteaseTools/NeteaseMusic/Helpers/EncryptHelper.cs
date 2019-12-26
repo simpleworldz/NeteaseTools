@@ -110,7 +110,7 @@ namespace NeteaseMusic.Helpers
             var modulus = BigInteger.Parse(modulusStr, NumberStyles.HexNumber);
             var inputText = BigInteger.Parse(Encoding.UTF8.GetBytes(clearText).ToHexString(), NumberStyles.HexNumber);
             var calRes = BigInteger.ModPow(inputText, exponent, modulus);
-            var padRes = calRes.ToString("X2").PadLeft(256, '0');
+            var padRes = calRes.ToString("x2").PadLeft(256, '0');
             return padRes.Substring(padRes.Length - 256);
         }
 

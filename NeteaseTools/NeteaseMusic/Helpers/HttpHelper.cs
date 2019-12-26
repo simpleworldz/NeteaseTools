@@ -8,57 +8,60 @@ using System.IO;
 using NeteaseMusic.Models;
 using Newtonsoft.Json;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections;
+using System.Reflection;
 
 namespace NeteaseMusic.Helpers
 {
     public static class HttpHelper
     {
         static CookieContainer cookieContainer = new CookieContainer();
-        static string  cookieFile = "Cookie/Test.ck";
+        static string  cookieFile = "Cookie/Cookie.ck";
         static HttpHelper()
         {
-            //var cookieCon3 = ReadCookiesFromDisk();
-            cookieContainer.Add(new Uri("https://music.163.com"), new Cookie("Lang", "English"));
+            cookieContainer = ReadCookiesFromDisk();
+            //var cookies = cookieContainer.List();
+            //cookieContainer.Add(new Uri("https://music.163.com"), new Cookie("Lang", "English"));
+            //cookieContainer.Add(new Uri("https://music.163.com"), new Cookie("os", "pc"));
         }
+       
         public static async Task<string> PostAsync(HttpParams hp)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(hp.Url);
             MappingHeader(request, hp);
             request.Method = "POST";
             request.CookieContainer = cookieContainer;
-            //要吗 不能直接这样，会把 = 一并给encode了
+            //request.Proxy = new WebProxy(new Uri("http://127.0.0.1:1080"));
+            //不能直接这样，会把 “=” 一并给encode了
             //string data = HttpUtility.UrlEncode(hp.Data); 
             byte[] daby = Encoding.ASCII.GetBytes(DataDic2Str(hp.Data));
             using (Stream stream = request.GetRequestStream())
             {
                 stream.Write(daby, 0, daby.Length);
             }
-            //以下貌似也可以合并。
             HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
             //保存cookie
             response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
-            var xx1 = cookieContainer;
-            WriteCookiesToDisk();
-            var xx = ReadCookiesFromDisk();
             return new StreamReader(response.GetResponseStream()).ReadToEnd();
-            //Stream myResposeStream = response.GetResponseStream();
-            //StreamReader myStreamReader = new StreamReader(myResposeStream);
-            //string responseStr = myStreamReader.ReadToEnd();
-            //myStreamReader.Close();
-            //myResposeStream.Close();
         }
-
-        public static void CookieSerializeTest()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hp"></param>
+        /// <param name="connect">连接字符 ？ or #</param>
+        /// <returns></returns>
+        public static async Task<string> GetAsync(HttpParams hp, string connect = "?")
         {
-            CookieContainer cookieCon = new CookieContainer();
-            cookieCon.Add(new Uri("http://www.example.com"), new Cookie("name", "value"));
-            //var cookieStr = JsonConvert.SerializeObject(cookieCon);
-            //var cookieCon2 = JsonConvert.DeserializeObject<CookieContainer>(cookieStr);
-            //var file = "Cookie/Test.ck";
-            //WriteCookiesToDisk(file, cookieCon);
-            //var cookieCon3 = ReadCookiesFromDisk(file);
-        }
 
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(hp.Url + connect + DataDic2Str(hp.Data));
+            request.Method = "GET";
+            MappingHeader(request, hp);
+            request.CookieContainer = cookieContainer;
+            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
+            response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
+            return new StreamReader(response.GetResponseStream()).ReadToEnd();
+        }
+       
         //https://stackoverflow.com/questions/1777203/c-writing-a-cookiecontainer-to-disk-and-loading-back-in-for-use
         public static void WriteCookiesToDisk()
         {
@@ -106,45 +109,7 @@ namespace NeteaseMusic.Helpers
                 return new CookieContainer();
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="hp"></param>
-        /// <param name="connect">连接字符 ？ or #</param>
-        /// <returns></returns>
-        public static async Task<string> GetAsync(HttpParams hp, string connect = "?")
-        {
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(hp.Url + connect + DataDic2Str(hp.Data));
-            //request.AllowAutoRedirect = true;
-            request.Method = "GET";
-            MappingHeader(request, hp);
-            //request.ContentType = "text/html; charset=utf-8";
-            //request.Referer = hp.Referer;
-            //request.UserAgent = hp.Agent;
-            //request.Headers.Add(HttpRequestHeader.Cookie, "user_from=2;XMPLAYER_addSongsToggler=0;XMPLAYER_isOpen=0;_xiamitoken=cb8bfadfe130abdbf5e2282c30f0b39a");
-            // request.Timeout = 15000;
-            request.CookieContainer = cookieContainer;
-            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
-            response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
-            return new StreamReader(response.GetResponseStream()).ReadToEnd();
-        }
-        public static async Task<bool> TeskAsync(HttpParams hp)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(hp.Url);
-            request.AddRange(1);
-            try
-            {
-                HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
-                request.Abort();
-                response.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+      
         private static void MappingHeader(HttpWebRequest request, HttpParams hp)
         {
             request.ContentType = hp.ContentType;
@@ -160,6 +125,34 @@ namespace NeteaseMusic.Helpers
             }
             sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
+        }
+        //https://stackoverflow.com/questions/13675154/how-to-get-cookies-info-inside-of-a-cookiecontainer-all-of-them-not-for-a-spe
+        public static List<Cookie> List(this CookieContainer container)
+        {
+            var cookies = new List<Cookie>();
+
+            var table = (Hashtable)container.GetType().InvokeMember("m_domainTable",
+                BindingFlags.NonPublic |
+                BindingFlags.GetField |
+                BindingFlags.Instance,
+                null,
+                container,
+                null);
+
+            foreach (string key in table.Keys)
+            {
+                var item = table[key];
+                var items = (ICollection)item.GetType().GetProperty("Values").GetGetMethod().Invoke(item, null);
+                foreach (CookieCollection cc in items)
+                {
+                    foreach (Cookie cookie in cc)
+                    {
+                        cookies.Add(cookie);
+                    }
+                }
+            }
+
+            return cookies;
         }
     }
 }

@@ -12,7 +12,9 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler((sender,e) => { HttpHelper.WriteCookiesToDisk(); });
+            //程序关闭时保存Cookie
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler((sender, e) => { HttpHelper.WriteCookiesToDisk(); });
+
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
             var playlistId = "320559879";
@@ -22,20 +24,24 @@ namespace ConsoleApp
             var ids = new List<string>
             {
                 "472607124",
-                "515143072",
-                //"26466734",
+                //"515143072",
+                "1300210802",
             };
 
             string i = "Rqcu3wnN3sWlLzWf";
             string encSecKey = "a3ab8f757c3e19bf35a3e1b8f48f8a58e52f4dcef4dc4569f65b480ccf6e604f890ed95672f23d0940d6b4716e332e4b1286d9460153c3bf5dbcabe31bb5f06b440da1c3bc4b599c960534cc66d5cd28d58150e9bb278959a071bd4f2b163677ad4fbd15949b0f8b21b59c92eff7ee6654f9f77114de824c10446140ccb5cc08";
             string publicKey = "-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDgtQn2JZ34ZC28NWYpAUd98iZ37BUrX/aKzmFbt7clFSs6sXqHauqKWqdtLkF2KexO40H1YTX8z2lSgBBOAxLsvaklV8k4cBFK9snQXE9/DDaFt6Rr7iVZMldczhC0JNgTz+SHXT6CBHuX3e9SdB1Ua44oncaTWz7OBGLbCiK45wIDAQAB\n-----END PUBLIC KEY-----";
-            FileService.SaveDetailsAndPrivileges(playlistId);
+            //FileService.SaveDetailsAndPrivileges(playlistId);
             //var result = RequestService.Test( publicKey,Tools.ReverseString(i));
             //var result = RequestService.Test( i,publicKey);
             //var result = EncryptHelper.Encrypt(i);
+            //os=pc
 
-            //var result = RequestService.GetSongDetail(ids);
-            //var result = RequestService.CellphoneLogin("18397789765","yiuyi");
+            // Referer: "https://music.163.com"
+            //User-Agent:"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"
+
+            var result = RequestService.GetSongDetail(ids);
+            //var result = RequestService.CellphoneLogin("18396359487", "qy19970108");
             //HttpHelper.CookieSerializeTest();
             watch.Stop();
             Console.WriteLine(watch.ElapsedMilliseconds);

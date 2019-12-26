@@ -24,6 +24,6 @@ namespace NeteaseMusic.Models
         //这个则不用cookie，privilege信息也正常;但无法获取从网易云盘中收藏的歌曲
         //https://github.com/Binaryify/NeteaseCloudMusicApi
         public string UserAgent { get; set; } = "Mozilla / 5.0(iPad; CPU OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1";
-        public string Referer { get; set; } 
+        public string Referer { get; set; } //= "https://music.163.com";
     }
 }
