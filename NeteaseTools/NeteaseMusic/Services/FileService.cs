@@ -50,8 +50,8 @@ namespace NeteaseMusic.Services
             var jObj = JObject.Parse(playlistDetail);
             var tracks = InfoHelper.Playlist2Track(jObj);
             DetailsAndPrivileges dp = tracks.Count() > 1000? AppService.GetSongsDetail(tracks): InfoHelper.Detail2DAP(jObj);
-            if (string.IsNullOrEmpty(filename)) filename = playlistId + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            SaveDetailsAndPrivileges(dp, filename);
+            //if (string.IsNullOrEmpty(filename)) filename = playlistId + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            SaveDetailsAndPrivileges(dp, playlistId);
         }
 
        
@@ -66,22 +66,12 @@ namespace NeteaseMusic.Services
         {
             var dpo = new { dp.songs, dp.privileges };
             var dpoStr = JsonConvert.SerializeObject(dpo);
-            if (string.IsNullOrEmpty(filename)) filename ="9999999"+ DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string path = "SongDetail/" + filename + ".json";
+            string path = FileHelper.PathJointForSave(filename, "SongDetail","SongDetail");
             FileHelper.SaveJsonFile(dpoStr, path);
         }
         public static void SavePlaylist(string playlistId, string filename = null)
         {
-            string path;
-            if (string.IsNullOrEmpty(filename))
-            {
-                path = "PlaylistDetail/" + playlistId+"_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json";
-            }
-            else
-            {
-                path = "PlaylistDetail/" + filename + ".json";
-
-            }
+            string path = FileHelper.PathJointForSave(filename,"Playlist",playlistId);
             string playlistDetail = RequestService.GetPlaylistDetail(playlistId);
             FileHelper.SaveJsonFile(playlistDetail, path);
         }
@@ -94,6 +84,13 @@ namespace NeteaseMusic.Services
         {
             return InfoHelper.Queue2Detail(FileHelper.ReadJsonFile2JTokens(filename));
         }
-
+        public static IEnumerable<Detail> GetDetailFromDetailFile(string filepath)
+        {
+            return InfoHelper.Detail2Detail(FileHelper.ReadJsonFile2JObj(filepath));
+        }
+        public static IEnumerable<Detail> GetDetailFromPlaylistFile(string filepath)
+        {
+            return InfoHelper.Playlist2Detail(FileHelper.ReadJsonFile2JObj(filepath));
+        }
     }
 }

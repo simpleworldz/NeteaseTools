@@ -62,14 +62,6 @@ namespace NeteaseMusic.Services
             var songsIds = dp.songs.Select(e => e.id).ToList();
             return dp.privileges.Where(e => !songsIds.Contains(e.id)); 
         }
-        public static IEnumerable<Detail> GetDetailFromQueueFile(string filepath)
-        {
-            return InfoHelper.Queue2Detail(FileHelper.ReadJsonFile2JTokens(filepath));
-        }
-        public static IEnumerable<Detail> GetDetailFromDetailFile(string filepath)
-        {
-           return  InfoHelper.Detail2Detail(FileHelper.ReadJsonFile2JObj(filepath));
-        }
         /// <summary>
         /// 对比Queue文件和Detail文件
         /// ‪Queue文件为网易云音乐PC客户端中的正在播放Playlist，文件默认位置：%localappdata%\Netease\CloudMusic\webdata\file\queue
@@ -79,7 +71,7 @@ namespace NeteaseMusic.Services
         /// <returns></returns>
         public static object ChangeQD(string queueFilename,string detailFilename)
         {
-            return Change(GetDetailFromQueueFile(queueFilename), GetDetailFromDetailFile(detailFilename));
+            return Change(FileService.GetDetailFromQueueFile(queueFilename), FileService.GetDetailFromDetailFile(detailFilename));
         }
         /// <summary>
         /// 对比Queue文件
@@ -89,7 +81,19 @@ namespace NeteaseMusic.Services
         /// <returns></returns>
         public static object ChangeDD(string filepathOld, string filepathNew)
         {
-            return Change(GetDetailFromDetailFile(filepathOld), GetDetailFromDetailFile(filepathNew));
+            return Change(FileService.GetDetailFromDetailFile(filepathOld), FileService.GetDetailFromDetailFile(filepathNew));
+        }
+        public static object ChangePP(string filepathOld, string filepathNew)
+        {
+            return Change(FileService.GetDetailFromPlaylistFile(filepathOld), FileService.GetDetailFromPlaylistFile(filepathNew));
+        }
+        public static object ChangePD(string filepathOld, string filepathNew)
+        {
+            return Change(FileService.GetDetailFromPlaylistFile(filepathOld), FileService.GetDetailFromDetailFile(filepathNew));
+        }
+        public static object ChangeDP(string filepathOld, string filepathNew)
+        {
+            return Change(FileService.GetDetailFromDetailFile(filepathOld), FileService.GetDetailFromPlaylistFile(filepathNew));
         }
         private static object Change(IEnumerable<Detail> dOld,IEnumerable<Detail> dNew)
         {

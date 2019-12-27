@@ -26,3 +26,5 @@ E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\obj\Debug\ConsoleApp.csproj.CoreC
 E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\obj\Debug\ConsoleApp.csproj.CopyComplete
 E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\obj\Debug\ConsoleApp.exe
 E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\obj\Debug\ConsoleApp.pdb
+E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\CommandLine.dll
+E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\CommandLine.xml

@@ -49,5 +49,21 @@ namespace NeteaseMusic.Helpers
             }
             return path;
         }
+        public static string PathJointForSave(string filename,string type,string defaultName)
+        {
+            if (string.IsNullOrEmpty(filename))
+            {
+                filename =  Path.Combine(type, defaultName + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json");
+            }
+            else if(!filename.Contains(":"))
+            {
+                filename =  Path.Combine(type,filename);
+            }
+            if (string.IsNullOrEmpty(Path.GetExtension(filename)))
+            {
+                filename = filename + ".json";
+            }
+            return filename;
+        }
     }
 }
