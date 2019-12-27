@@ -10,14 +10,16 @@ namespace NeteaseMusic.Helpers
     public static class FileHelper
     {
         public static string parentDirectory = Environment.CurrentDirectory;
-        public static void SaveJsonFile(string data, string path)
+        public static string SaveJsonFile(string data, string path)
         {
+            path = PathHander(path, true);
             File.WriteAllText(PathHander(path,true), data);
+            return path;
         }
-        public static void SaveJsonFile(object obj, string path)
+        public static string SaveJsonFile(object obj, string path)
         {
             var data = JsonConvert.SerializeObject(obj);
-            SaveJsonFile(data,path);
+            return SaveJsonFile(data,path);
         }
         public static string ReadJsonFile(string path)
         {

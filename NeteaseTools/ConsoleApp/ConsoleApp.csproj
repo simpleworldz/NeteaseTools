@@ -49,6 +49,7 @@
     <Compile Include="AddOptions.cs" />
     <Compile Include="BackupOptions.cs" />
     <Compile Include="CompareOptions.cs" />
+    <Compile Include="InfoOptions.cs" />
     <Compile Include="LoginOptions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Program1.cs" />

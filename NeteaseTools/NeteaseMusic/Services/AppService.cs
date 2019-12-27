@@ -35,12 +35,13 @@ namespace NeteaseMusic.Services
                 privileges = allPrivileges,
             };
         }
+        #region GetNoCopyrightSongs
         /// <summary>
         /// 从Detail文件中获取没有版权的歌曲信息
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static IEnumerable<Detail> GetNoCopyrightSongs(string filename)
+        public static IEnumerable<Detail> GetNoCopyrightSongsFromDetail(string filename)
         {
             var dp = FileService.GetDAP(filename);
             return GetNoCopyrightSongs(dp);
@@ -52,6 +53,7 @@ namespace NeteaseMusic.Services
                    where p.st == "-200"
                    select d;
         }
+        #endregion
         /// <summary>
         /// 请求歌曲信息，为404的
         /// </summary>
@@ -62,6 +64,7 @@ namespace NeteaseMusic.Services
             var songsIds = dp.songs.Select(e => e.id).ToList();
             return dp.privileges.Where(e => !songsIds.Contains(e.id)); 
         }
+        #region Change
         /// <summary>
         /// 对比Queue文件和Detail文件
         /// ‪Queue文件为网易云音乐PC客户端中的正在播放Playlist，文件默认位置：%localappdata%\Netease\CloudMusic\webdata\file\queue
@@ -103,5 +106,6 @@ namespace NeteaseMusic.Services
             var reduce = dOld.Where(e => !idsNew.Contains(e.id));
             return new { add, reduce };
         }
+        #endregion
     }
 }
