@@ -61,7 +61,36 @@ namespace NeteaseMusic.Helpers
             response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
             return new StreamReader(response.GetResponseStream()).ReadToEnd();
         }
-       
+        //public static async void DownloadFile(string url, string path)
+        //{
+
+        //    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        //    //request.Method = "GET";
+        //    //MappingHeader(request, hp);
+        //    //request.CookieContainer = cookieContainer;
+        //    HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
+        //    path = FileHelper.PathHander(path, true);
+        //    using (var fileStream = File.Create(path))
+        //    {
+        //        var responseStream = response.GetResponseStream();
+        //        //responseStream.Seek(0, SeekOrigin.Begin);
+        //        responseStream.CopyTo(fileStream);
+        //    }
+        //    //using (var responseStream = response.GetResponseStream())
+        //    //{
+
+        //    //}
+        //    //    //response.Cookies = cookieContainer.GetCookies(response.ResponseUri);
+        //    //    new StreamReader().ReadToEnd();
+        //}
+        public static void DownloadFile(string url, string path)
+        {
+            path = FileHelper.PathHander(path, true);
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(url, path);
+            }
+        }
         //https://stackoverflow.com/questions/1777203/c-writing-a-cookiecontainer-to-disk-and-loading-back-in-for-use
         public static void WriteCookiesToDisk()
         {

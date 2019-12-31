@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace MusicDownloader
 {
-   public static class Xiami
+   public  class Xiami:IMusic
     {
         //https://github.com/LIU9293/musicAPI
-        public static string Search(string name, int page = 1, int pageSize = 1)
+        public  string Search(string name, int page = 1, int pageSize = 1)
         {
             HttpParams hp = new HttpParams("https://music-api-jwzcyzizya.now.sh/api/search/song/xiami");
             hp.Referer = "http://h.xiami.com/";
@@ -25,7 +25,7 @@ namespace MusicDownloader
             };
             return HttpHelper.GetAsync(hp).Result;
         }
-        public static List<string> GetSongUrl(string jsonStr)
+        private  List<string> GetSongUrl(string jsonStr)
         {
             JObject jObj = JObject.Parse(jsonStr);
             var songsUrl = jObj["songList"].Select(e => (string)e["file"]);
@@ -34,9 +34,15 @@ namespace MusicDownloader
             return songsUrl.ToList();
         }
 
-        public static List<string> GetSongUrl(string name, int page = 1, int pageSize = 1)
+        public  List<string> GetSongUrl(string name, int page = 1, int pageSize = 1)
         {
             return GetSongUrl(Search(name, page, pageSize));
         }
+
+        public string GetFirstUrl(string name)
+        {
+            return GetSongUrl(Search(name, 1, 1))[0];
+        }
+
     }
 }

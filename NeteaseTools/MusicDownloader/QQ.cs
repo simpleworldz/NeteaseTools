@@ -12,23 +12,24 @@ using System.Xml;
 
 namespace MusicDownloader
 {
-    public static class QQ
+    public  class QQ:IMusic
     {
-        public static string Search(string name, int page = 1, int pageSize = 1)
+        public  string Search(string name, int page = 1, int pageSize = 1)
         {
             HttpParams hp = new HttpParams("http://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp");
             hp.Referer = "http://m.y.qq.com/";
             hp.UserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1";
             hp.Data = new Dictionary<string, object>()
             {
-                 {"w" , HttpUtility.UrlEncode(name) },
+                 //{"w" , HttpUtility.UrlEncode(name) },
+                 {"w" , name },
                 { "n" , pageSize },
                 {"format", "json" },
                 { "p" , page },
             };
             return HttpHelper.GetAsync(hp).Result;
         }
-        public static List<string> GetSongMid(string jsonStr)
+        private  List<string> GetSongMid(string jsonStr)
         {
             JObject jObj = JObject.Parse(jsonStr);
             return jObj["data"]["song"]["list"].Select(e => (string)e["songmid"]).ToList();
@@ -47,6 +48,10 @@ namespace MusicDownloader
         {
             //return $"http://27.152.180.23/amobile.music.tc.qq.com/C400{songmid}.m4a?guid=6419485772&vkey={GetSongVKey(songmid)}&uin=579&fromtag=66";
             return $"http://isure.stream.qqmusic.qq.com/{GetSongVKey(songmid)}";
+        }
+        public string GetFirstUrl(string name)
+        {
+          return   GetSongUrl(GetSongMid(Search(name, 1, 1))[0]);
         }
         #region 废弃
         public static string GetSongUrl2(string songmid)
@@ -69,6 +74,7 @@ namespace MusicDownloader
 
 
         }
+       
         #region
         //https://segmentfault.com/a/1190000018645242
         public static string GetSongVKey1(string songmid)
@@ -142,6 +148,8 @@ namespace MusicDownloader
                     "&guid=6419485772" +
                     "&vkey=" + GetSongVKey1(songmid);
         }
+
+      
         #endregion
         #endregion
     }

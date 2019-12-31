@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Baidu.cs" />
+    <Compile Include="IMusic.cs" />
     <Compile Include="Kugou.cs" />
     <Compile Include="Netease.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

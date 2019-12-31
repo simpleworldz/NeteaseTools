@@ -9,9 +9,9 @@ using NeteaseMusic.Services;
 
 namespace MusicDownloader
 {
-    public static class Netease
+    public  class Netease:IMusic
     {
-        public static string Search(string name, int page = 1, int pageSize = 1)
+        public  string Search(string name, int page = 1, int pageSize = 1)
         {
             HttpParams hp = new HttpParams("https://music.163.com/weapi/cloudsearch/get/web");
             var data = new
@@ -24,7 +24,7 @@ namespace MusicDownloader
             };
             return RequestService.SendRequest(hp, data);
         }
-        public static string GetSongUrlInfo(List<string> ids, int br = 320000)
+        public  string GetSongUrlInfo(List<string> ids, int br = 320000)
         {
             HttpParams hp = new HttpParams("https://music.163.com/weapi/song/enhance/player/url");
             var data = new
@@ -34,20 +34,24 @@ namespace MusicDownloader
             };
             return RequestService.SendRequest(hp, data);
         }
-        public static List<string> GetSongId(string jsonStr)
+        private  List<string> GetSongId(string jsonStr)
         {
             JObject jObj = JObject.Parse(jsonStr);
             return jObj["result"]["songs"].Select(e => (string)e["id"]).ToList();
         }
-        public static List<string> GetSongUrl(string jsonStr)
+        private  List<string> GetSongUrl(string jsonStr)
         {
             JObject jObj = JObject.Parse(jsonStr);
             return jObj["data"].Select(e => (string)e["url"]).ToList();
         }
 
-        public static List<string> GetSongUrl(string name,int page = 1,int pageSize = 1)
+        public  List<string> GetSongUrl(string name,int page = 1,int pageSize = 1)
         {
          return GetSongUrl( GetSongUrlInfo(GetSongId(Search(name, page, pageSize))));
+        }
+        public  string GetFirstUrl(string name)
+        {
+            return GetSongUrl(GetSongUrlInfo(GetSongId(Search(name, 1, 1))))[0];
         }
     }
 }
