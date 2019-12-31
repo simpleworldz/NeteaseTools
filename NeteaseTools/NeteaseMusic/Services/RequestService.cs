@@ -54,7 +54,7 @@ namespace NeteaseMusic.Services
             HttpParams hp = new HttpParams("https://music.163.com/weapi/login/cellphone");
             //string d = "{\"id\":\"320559879\",\"offset\":\"10\",\"total\":\"true\",\"n\":\"1000\"}";
             password = EncryptHelper.MD5Encrypt(password);
-            var data = new { phone , password  , countrycode,rememberLogin };
+            var data = new { phone, password, countrycode, rememberLogin };
             return SendRequest(hp, data);
         }
         /// <summary>
@@ -63,13 +63,18 @@ namespace NeteaseMusic.Services
         /// <param name="d">加密前的请求数据</param>
         /// <param name="hp"></param>
         /// <returns></returns>
-        private static string SendRequest(HttpParams hp, object obj)
+        public static string SendRequest(HttpParams hp, object obj)
         {
             var data = JsonConvert.SerializeObject(obj);
             return SendRequest(hp, data);
         }
-        private static string SendRequest(HttpParams hp, string data)
+        public static string SendRequest(HttpParams hp, string data)
         {
+            //当UserAgent为这个时如果没有cookie 不管改歌曲是否下架privilege的st都是-100，加了cookie后 下架 -200,非下架 0；
+            //hp.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36";
+            //这个则不用cookie，privilege信息也正常;但无法获取从网易云盘中收藏的歌曲
+            //https://github.com/Binaryify/NeteaseCloudMusicApi
+            hp.UserAgent = "Mozilla / 5.0(iPad; CPU OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1";
             string i = Tools.CreateRandomWords(16);
             string h = EncryptHelper.AesEncrypt(data, g, iv);
             string param = EncryptHelper.AesEncrypt(h, i, iv);
@@ -83,10 +88,12 @@ namespace NeteaseMusic.Services
             string ir = Tools.ReverseString(i);
             string encSecKey = EncryptHelper.RsaEncryptWithPublic(ir, publicKey);
             //string encSecKey = EncryptHelper.RsaEncryptWithEM(ir, e,f);
-            hp.Data = new Dictionary<string, string>()
+            hp.Data = new Dictionary<string, object>()
             {
-                { "params",param},
-                { "encSecKey",encSecKey}
+                { "params",param
+    },
+                { "encSecKey",encSecKey
+}
             };
             var task = HttpHelper.PostAsync(hp);
             return task.Result;

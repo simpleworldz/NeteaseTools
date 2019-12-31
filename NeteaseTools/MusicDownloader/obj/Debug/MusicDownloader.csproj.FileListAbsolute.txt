@@ -1,0 +1,13 @@
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\MusicDownloader.pdb
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\NeteaseMusic.dll
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\Newtonsoft.Json.dll
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\BouncyCastle.Crypto.dll
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\NeteaseMusic.pdb
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\NeteaseMusic.dll.config
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\Newtonsoft.Json.xml
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.csprojAssemblyReference.cache
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.csproj.CoreCompileInputs.cache
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.csproj.CopyComplete
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.pdb
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\MusicDownloader.dll
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.dll

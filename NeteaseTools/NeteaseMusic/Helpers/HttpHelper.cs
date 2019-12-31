@@ -116,8 +116,12 @@ namespace NeteaseMusic.Helpers
             request.Referer = hp.Referer;
             request.UserAgent = hp.UserAgent;
         }
-        public static string DataDic2Str(Dictionary<string, string> data)
+        public static string DataDic2Str(Dictionary<string, object> data)
         {
+            if (data == null || data.Count == 0 )
+            {
+                return "";
+            }
             StringBuilder sb = new StringBuilder();
             foreach (var item in data)
             {

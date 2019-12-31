@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeteaseMusic", "NeteaseMusi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{384B15A2-0042-414B-B270-FEAD974B45B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicDownloader", "MusicDownloader\MusicDownloader.csproj", "{2B453CF9-6EA3-42EB-84DA-B73918E839D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{384B15A2-0042-414B-B270-FEAD974B45B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{384B15A2-0042-414B-B270-FEAD974B45B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{384B15A2-0042-414B-B270-FEAD974B45B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B453CF9-6EA3-42EB-84DA-B73918E839D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B453CF9-6EA3-42EB-84DA-B73918E839D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B453CF9-6EA3-42EB-84DA-B73918E839D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B453CF9-6EA3-42EB-84DA-B73918E839D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

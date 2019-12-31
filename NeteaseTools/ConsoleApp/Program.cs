@@ -11,20 +11,20 @@ namespace ConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler((sender, e) => { HttpHelper.WriteCookiesToDisk(); });
+        //static void Main(string[] args)
+        //{
+        //    AppDomain.CurrentDomain.ProcessExit += new EventHandler((sender, e) => { HttpHelper.WriteCookiesToDisk(); });
 
-            Parser.Default.ParseArguments<BackupOptions, CompareOptions,InfoOptions, LoginOptions>(args).MapResult
-                (
-                    (BackupOptions opts) => Backup(opts),
-                    (CompareOptions opts) => Compare(opts),
-                    (InfoOptions opts) => Info(opts),
-                    (LoginOptions opts) => Login(opts),
-                    errs => 9
-                );
+        //    Parser.Default.ParseArguments<BackupOptions, CompareOptions,InfoOptions, LoginOptions>(args).MapResult
+        //        (
+        //            (BackupOptions opts) => Backup(opts),
+        //            (CompareOptions opts) => Compare(opts),
+        //            (InfoOptions opts) => Info(opts),
+        //            (LoginOptions opts) => Login(opts),
+        //            errs => 9
+        //        );
 
-        }
+        //}
         static int Backup(BackupOptions opts)
         {
             string path = string.Empty;
