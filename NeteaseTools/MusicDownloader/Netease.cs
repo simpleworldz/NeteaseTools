@@ -44,10 +44,18 @@ namespace MusicDownloader
             JObject jObj = JObject.Parse(jsonStr);
             return jObj["data"].Select(e => (string)e["url"]).ToList();
         }
-
+        private Dictionary<string,string> GetSongIdUrlMap(string jsonStr)
+        {
+            JObject jObj = JObject.Parse(jsonStr);
+            return jObj["data"].ToDictionary(e => (string)e["id"],e => (string)e["url"]);
+        }
         public  List<string> GetSongUrl(string name,int page = 1,int pageSize = 1)
         {
          return GetSongUrl( GetSongUrlInfo(GetSongId(Search(name, page, pageSize))));
+        }
+        public Dictionary<string, string> GetSongUrl(List<string> ids)
+        {
+            return GetSongIdUrlMap(GetSongUrlInfo(ids));
         }
         public  string GetFirstUrl(string name)
         {

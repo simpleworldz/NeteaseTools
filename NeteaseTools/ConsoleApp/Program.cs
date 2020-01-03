@@ -117,23 +117,37 @@ namespace ConsoleApp
         #region Download
         static int Download(DownloadOptions opts)
         {
-            var detail = FileService.GetDetailFroNoCopyRight(opts.Name);
+            var dateStr = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            List<Detail> detail = new List<Detail>();
+            switch (opts.Type.ToUpper())
+            {
+                case "N":
+                    detail = FileService.GetDetailFroNoCopyRight(opts.Name);
+                    break;
+                case "D":
+                    detail = FileService.GetDetailFromDetail(opts.Name);
+                    break;
+                case "DI":
+                    detail = FileService.GetDetailFromDetail(opts.Name);
+                    DownloadNetease(detail, dateStr);
+                    return 5;
+            }
+
             var dic = new Dictionary<string, string>()
             {
-                {"n","Netease" },
-                {"q","QQ" },
-                {"b","Baidu" },
-                {"k","Kugou" },
-                {"x","Xiami" },
+                {"N","Netease" },
+                {"Q","QQ" },
+                {"B","Baidu" },
+                {"K","Kugou" },
+                {"X","Xiami" },
             };
 
             var platform = (!string.IsNullOrEmpty(opts.Platform) ? opts.Platform : "nqbkx").ToUpper();
-            var downloadType = dic.Where(e => platform.Contains(e.Key.ToUpper())).Select(e => e.Value).ToList();
-            var dateStr = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            var downloadType = dic.Where(e => platform.Contains(e.Key)).Select(e => e.Value).ToList();
             downloadType.ForEach(e => DownLoad(detail, e, dateStr));
             return 5;
         }
-        static void DownLoad(IEnumerable<Detail> details, string type,string dateStr)
+        static void DownLoad(IEnumerable<Detail> details, string type, string dateStr)
         {
             IMusic music = new Netease();
             switch (type)
@@ -188,6 +202,34 @@ namespace ConsoleApp
                         log.Info(alert, ex);
                         Console.WriteLine(alert + " Dwonload Fail!");
                     }
+                }
+            }
+
+        }
+        static void DownloadNetease(IEnumerable<Detail> details, string dateStr)
+        {
+            var netease = new Netease();
+            var ids = details.Select(e => e.id).ToList();
+            var idNamedic = details.ToDictionary(e => e.id, e => e.name);
+            var idUrlMap = netease.GetSongUrl(ids);
+
+            foreach (var idUrl in idUrlMap)
+            {
+                string id = idUrl.Key;
+                string url = idUrl.Value;
+                string alert = id + " " + idNamedic[id];
+                try
+                {
+                    var extension = GetExtension(url);
+                    var path = "Download/" + dateStr + "/Netease/" + idNamedic[id] + extension;
+                    HttpHelper.DownloadFile(url, path);
+                    Console.WriteLine(alert + " Dwonload Success!");
+                }
+                catch (Exception ex)
+                {
+                    ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+                    log.Info(alert, ex);
+                    Console.WriteLine(alert + " Dwonload Fail!");
                 }
             }
 

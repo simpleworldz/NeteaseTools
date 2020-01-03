@@ -10,7 +10,7 @@ namespace ConsoleApp
     [Verb("download", HelpText = "下载")]
     class DownloadOptions
     {
-        [Option('t', "type", Required = true, HelpText = "下载时加载的文件类型：d:Detail; n:NoCopyright")]
+        [Option('t', "type", Required = true, HelpText = "下载时加载的文件类型：d:Detail; n:NoCopyright; di:Detail 在网易云中通过Id下载")]
         public string Type { get; set; }
         [Option('n', "name", Required = true, HelpText = "文件名")]
         public string Name { get; set; }

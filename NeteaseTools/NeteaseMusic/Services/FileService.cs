@@ -109,7 +109,7 @@ namespace NeteaseMusic.Services
         //    var path = FileHelper.PathJointForSave(saveFilename, "NoCopyright", "NoCopyright");
         //    return FileHelper.SaveJsonFile(filename, path);
         //}
-        public static List<Detail> GetDetailFroDetail(string filename)
+        public static List<Detail> GetDetailFromDetail(string filename)
         {
             var jObj = JObject.Parse(FileHelper.ReadJsonFile(filename));
             return jObj["songs"].ToObject<List<Detail>>() ;
