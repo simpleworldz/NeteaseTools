@@ -28,3 +28,5 @@ E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.csproj.C
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.csproj.CopyComplete
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.dll
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.pdb
+E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\log4net.dll
+E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\log4net.xml

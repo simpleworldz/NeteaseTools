@@ -30,3 +30,5 @@ E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\CommandLine.dll
 E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\CommandLine.xml
 E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\MusicDownloader.dll
 E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\MusicDownloader.pdb
+E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\log4net.dll
+E:\MyCode\NeteaseTools\NeteaseTools\ConsoleApp\bin\Debug\log4net.xml

@@ -1,4 +1,5 @@
-﻿using MusicDownloader;
+﻿using log4net;
+using MusicDownloader;
 using NeteaseMusic.Helpers;
 using NeteaseMusic.Services;
 using NeteaseMusic.Song.Models;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,14 +15,14 @@ namespace ConsoleApp
 {
     class Test
     {
-        static void Main()
+        static void Main1()
         {
             var watch = Stopwatch.StartNew();
             IMusic music = new Netease();
             //string result =   Netease.Search("月", 1, 1);
 
             music = new Baidu();
-           // var result =music.GetFirstUrl("月");
+            // var result =music.GetFirstUrl("月");
 
             //var result = Baidu.Search("月");
             //var result =   Baidu.GetSongUrl("月", 1, 1);
@@ -36,23 +38,34 @@ namespace ConsoleApp
 
             //var result = FileService.GetDetail("SongDetail/2012429627_20191227_134946.json");
 
-
-            DownLoad();
+            music = new Kugou();
+            //var result = music.GetFirstUrl("月亮");
+            //ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            //log.Error("test" + ": " );
+            string filename = "NoCopyright/NoCopyright_20191227_140115.json";
+            var downloadType = new List<string>()
+            {
+                "Netease",
+                "Baidu",
+                "Kugou",
+                "QQ",
+                "Xiami",
+            };
+            DownLoad(filename,downloadType);
             watch.Stop();
             Console.WriteLine(watch.ElapsedMilliseconds);
             Console.ReadKey();
         }
-        static void DownLoad()
+        static void DownLoad(string filename,List<string> downloadType)
         {
             //先拿5个 测试下
-            var detail5 = FileService.GetDetailFroNoCopyRight("NoCopyright/NoCopyright_20191227_140115.json").Take(5);
-            DownLoad(detail5, "Netease");
-            DownLoad(detail5, "Baidu");
-            //netesae
+            var detail5 = FileService.GetDetailFroNoCopyRight(filename).Take(5);
+          
+            downloadType.ForEach(e => DownLoad(detail5, e));
         }
         static void DownLoad(IEnumerable<Detail> details, string type)
         {
-
+            var dateStr =  DateTime.Now.ToString("yyyyMMdd_HHmmss");
             IMusic music = new Netease();
             switch (type)
             {
@@ -62,19 +75,43 @@ namespace ConsoleApp
                 case "Baidu":
                     music = new Baidu();
                     break;
+                case "Kugou":
+                    music = new Kugou();
+                    break;
+                case "QQ":
+                    music = new QQ();
+                    break;
+                case "Xiami":
+                    music = new Xiami();
+                    break;
             }
+
             foreach (var detail in details)
             {
-                try
+                var keywords = new List<string>()
                 {
-                    string filename = detail.name;
-                  var url =   music.GetFirstUrl(detail.name + " " + detail.ar[0].name);
-                    var extension = GetExtension(url);
-                    var path = type + "/" + filename + extension;
-                    HttpHelper.DownloadFile(url, path);
-                }
-                catch (Exception ex)
+                    detail.name + " " + detail.ar[0].name,
+                    detail.name
+                };
+                foreach (var keyword in keywords)
                 {
+                    try
+                    {
+                        string filename = detail.name;
+                        var url = music.GetFirstUrl(keyword);
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            var extension = GetExtension(url);
+                            var path = "Download/"+dateStr +"/" + type + "/" + filename + extension;
+                            HttpHelper.DownloadFile(url, path);
+                        }
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+                        log.Error(type + ": "+ keyword, ex);
+                    }
                 }
             }
 

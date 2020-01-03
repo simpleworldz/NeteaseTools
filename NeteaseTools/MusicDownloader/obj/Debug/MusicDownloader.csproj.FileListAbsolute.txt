@@ -11,3 +11,5 @@ E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.cs
 E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.pdb
 E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\MusicDownloader.dll
 E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\obj\Debug\MusicDownloader.dll
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\log4net.dll
+E:\MyCode\NeteaseTools\NeteaseTools\MusicDownloader\bin\Debug\log4net.xml

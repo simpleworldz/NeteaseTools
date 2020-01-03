@@ -1,5 +1,6 @@
 ﻿using NeteaseMusic.Helpers;
 using NeteaseMusic.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Web;
 
 namespace MusicDownloader
 {
-   public class Kugou
+   public class Kugou:IMusic
     {
         public string Search(string name, int page = 1, int pageSize = 1)
         {
@@ -33,31 +34,30 @@ namespace MusicDownloader
             !string.IsNullOrEmpty((string)e["HQFileHash"])? (string)e["HQFileHash"]: (string)e["FileHash"]
             ).ToList();
         }
-        //public override MusicInfo[] GetSongsByIds(string[] ids)
+        public string GetSongUrlInfo(string id)
+        {
+            HttpParams hp = new HttpParams("http://m.kugou.com/app/i/getSongInfo.php");
+            hp.Referer = "http://m.kugou.com/play/info/" + id;
+            hp.Data = new Dictionary<string, object>()
+            {
+                { "cmd" , "playInfo" },
+                {"hash" , id},
+            };
+            return HttpHelper.GetAsync(hp).Result;
+        }
+        private string GetSongUrl(string jsonStr)
+        {
+            JObject jObj = JObject.Parse(jsonStr);
+            return (string)jObj["url"];
+        }
+        //public string GetSongUrl(string name, int page = 1, int pageSize = 1)
         //{
-        //    List<MusicInfo> mis = new List<MusicInfo>();
-        //    foreach (string id in ids)
-        //    {
-        //        Task<string> songRes = GetSongByIdRAsync(id);
-        //        Task<string> songLrc = GetLrcRAsync(id);
-        //        JObject jo = JObject.Parse(songRes.Result);
-        //        if (!jo["error"].ToString().Equals(""))
-        //        {
-        //            continue;
-        //        }
-        //        mis.Add(new MusicInfo()
-        //        {
-        //            url = jo["url"].ToString(),
-        //            title = jo["songName"].ToString(),
-        //            author = jo["singerName"].ToString(),
-        //            link = "http://www.kugou.com/song/#hash=" + id,
-        //            songid = id,
-        //            type = "kugou",
-        //            pic = !jo["imgUrl"].Equals("") ? jo["imgUrl"].ToString().Replace("{size}", "150") : jo["album_img"].ToString().Replace("{size}", "150"),
-        //            lrc = songLrc.Result
-        //        });
-        //    }
-        //    return mis.Count > 0 ? mis.ToArray() : null;
+        //    return GetSongUrl(GetSongUrlInfo(GetSongId(Search(name, page, pageSize))));
         //}
+
+        public string GetFirstUrl(string name)
+        {
+           return GetSongUrl(GetSongUrlInfo(GetSongId(Search(name, 1, 1))[0]));
+        }
     }
 }

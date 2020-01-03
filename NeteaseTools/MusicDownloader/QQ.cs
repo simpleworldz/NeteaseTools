@@ -34,7 +34,7 @@ namespace MusicDownloader
             JObject jObj = JObject.Parse(jsonStr);
             return jObj["data"]["song"]["list"].Select(e => (string)e["songmid"]).ToList();
         }
-        public static string GetSongVKey(string songmid)
+        public static string GetSongSuffix(string songmid)
         {
             HttpParams hp = new HttpParams("https://u.y.qq.com/cgi-bin/musicu.fcg");
             hp.Referer = "https://y.qq.com/portal/player.html";
@@ -47,7 +47,16 @@ namespace MusicDownloader
         public static string GetSongUrl(string songmid)
         {
             //return $"http://27.152.180.23/amobile.music.tc.qq.com/C400{songmid}.m4a?guid=6419485772&vkey={GetSongVKey(songmid)}&uin=579&fromtag=66";
-            return $"http://isure.stream.qqmusic.qq.com/{GetSongVKey(songmid)}";
+            var suffix = GetSongSuffix(songmid);
+            if (!string.IsNullOrEmpty(suffix))
+            {
+                return $"http://isure.stream.qqmusic.qq.com/" + suffix;
+
+            }
+            else
+            {
+                return null;
+            }
         }
         public string GetFirstUrl(string name)
         {

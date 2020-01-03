@@ -1,9 +1,13 @@
 ﻿using CommandLine;
+using log4net;
+using MusicDownloader;
 using NeteaseMusic.Helpers;
 using NeteaseMusic.Services;
+using NeteaseMusic.Song.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,20 +15,32 @@ namespace ConsoleApp
 {
     class Program
     {
-        //static void Main(string[] args)
-        //{
-        //    AppDomain.CurrentDomain.ProcessExit += new EventHandler((sender, e) => { HttpHelper.WriteCookiesToDisk(); });
+        static void Main(string[] args)
+        {
+            try
+            {
 
-        //    Parser.Default.ParseArguments<BackupOptions, CompareOptions,InfoOptions, LoginOptions>(args).MapResult
-        //        (
-        //            (BackupOptions opts) => Backup(opts),
-        //            (CompareOptions opts) => Compare(opts),
-        //            (InfoOptions opts) => Info(opts),
-        //            (LoginOptions opts) => Login(opts),
-        //            errs => 9
-        //        );
 
-        //}
+                AppDomain.CurrentDomain.ProcessExit += new EventHandler((sender, e) => { HttpHelper.WriteCookiesToDisk(); });
+
+                Parser.Default.ParseArguments<BackupOptions, CompareOptions, InfoOptions, LoginOptions, DownloadOptions>(args).MapResult
+                    (
+                        (BackupOptions opts) => Backup(opts),
+                        (CompareOptions opts) => Compare(opts),
+                        (InfoOptions opts) => Info(opts),
+                        (LoginOptions opts) => Login(opts),
+                        (DownloadOptions opts) => Download(opts),
+                        errs => 9
+                    );
+            }
+            catch (Exception ex)
+            {
+
+                ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+                log.Error(ex);
+                throw;
+            }
+        }
         static int Backup(BackupOptions opts)
         {
             string path = string.Empty;
@@ -43,7 +59,7 @@ namespace ConsoleApp
                     Console.WriteLine("类型错误");
                     return 1;
             }
-            Console.WriteLine("备份完成：" + path.Replace("/","\\"));
+            Console.WriteLine("备份完成：" + path.Replace("/", "\\"));
             return 1;
         }
         static int Compare(CompareOptions opts)
@@ -98,5 +114,93 @@ namespace ConsoleApp
             return 3;
 
         }
+        #region Download
+        static int Download(DownloadOptions opts)
+        {
+            var detail = FileService.GetDetailFroNoCopyRight(opts.Name);
+            var dic = new Dictionary<string, string>()
+            {
+                {"n","Netease" },
+                {"q","QQ" },
+                {"b","Baidu" },
+                {"k","Kugou" },
+                {"x","Xiami" },
+            };
+
+            var platform = (!string.IsNullOrEmpty(opts.Platform) ? opts.Platform : "nqbkx").ToUpper();
+            var downloadType = dic.Where(e => platform.Contains(e.Key.ToUpper())).Select(e => e.Value).ToList();
+            var dateStr = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            downloadType.ForEach(e => DownLoad(detail, e, dateStr));
+            return 5;
+        }
+        static void DownLoad(IEnumerable<Detail> details, string type,string dateStr)
+        {
+            IMusic music = new Netease();
+            switch (type)
+            {
+                case "Netease":
+                    music = new Netease();
+                    break;
+                case "QQ":
+                    music = new QQ();
+                    break;
+                case "Baidu":
+                    music = new Baidu();
+                    break;
+                case "Kugou":
+                    music = new Kugou();
+                    break;
+                case "Xiami":
+                    music = new Xiami();
+                    break;
+            }
+
+            foreach (var detail in details)
+            {
+                var keywords = new List<string>()
+                {
+                    detail.name + " " + detail.ar[0].name,
+                    detail.name
+                };
+                foreach (var keyword in keywords)
+                {
+                    var alert = type + ": " + keyword;
+                    try
+                    {
+                        string filename = detail.name;
+                        var url = music.GetFirstUrl(keyword);
+                        if (!string.IsNullOrEmpty(url))
+                        {
+                            var extension = GetExtension(url);
+                            var path = "Download/" + dateStr + "/" + type + "/" + filename + extension;
+                            HttpHelper.DownloadFile(url, path);
+                            Console.WriteLine(alert + " Dwonload Success!");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine(alert + " Dwonload Fail!");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ILog log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+                        log.Info(alert, ex);
+                        Console.WriteLine(alert + " Dwonload Fail!");
+                    }
+                }
+            }
+
+        }
+        public static string GetExtension(string url)
+        {
+            var index = url.IndexOf('?');
+            if (index != -1)
+            {
+                url = url.Substring(0, index);
+            }
+            return url.Substring(url.LastIndexOf('.'));
+        }
+        #endregion
     }
 }
