@@ -23,10 +23,10 @@ E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\System.Security.Princ
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\Newtonsoft.Json.xml
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\System.Security.AccessControl.xml
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\System.Security.Principal.Windows.xml
-E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.csprojAssemblyReference.cache
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.csproj.CoreCompileInputs.cache
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.csproj.CopyComplete
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.dll
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.pdb
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\log4net.dll
 E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\bin\Debug\log4net.xml
+E:\MyCode\NeteaseTools\NeteaseTools\NeteaseMusic\obj\Debug\NeteaseMusic.csprojAssemblyReference.cache

@@ -26,7 +26,7 @@ namespace NeteaseMusic.Services
                 var Privileges = InfoHelper.Privilege(jObj);
                 allDetails = allDetails.Union(details);
                 allPrivileges = allPrivileges.Union(Privileges);
-                if (details.Count() < 1000) break;
+                if (ids.Count() < 1000) break;
                 begin += 1000;
             }
             return new DetailsAndPrivileges()

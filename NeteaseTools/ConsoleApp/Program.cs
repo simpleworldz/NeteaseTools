@@ -23,13 +23,13 @@ namespace ConsoleApp
 
                 AppDomain.CurrentDomain.ProcessExit += new EventHandler((sender, e) => { HttpHelper.WriteCookiesToDisk(); });
 
-                Parser.Default.ParseArguments<BackupOptions, CompareOptions, InfoOptions, LoginOptions, DownloadOptions>(args).MapResult
+                Parser.Default.ParseArguments<BackupOptions, CompareOptions, InfoOptions, LoginOptions/*, DownloadOptions*/>(args).MapResult
                     (
                         (BackupOptions opts) => Backup(opts),
                         (CompareOptions opts) => Compare(opts),
                         (InfoOptions opts) => Info(opts),
                         (LoginOptions opts) => Login(opts),
-                        (DownloadOptions opts) => Download(opts),
+                        //(DownloadOptions opts) => Download(opts),
                         errs => 9
                     );
             }
